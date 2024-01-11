@@ -1,19 +1,39 @@
 import React from 'react';
-import { Button, StyleSheet, View } from 'react-native';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import { Text, StyleSheet, View, Button } from 'react-native';
+// import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import { NavigationContainer, NavigationProp, } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+function HomeScreen({ navigation }: {navigation: any}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+
+function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const width = useSharedValue(100);
-
-  const handlePress = () => {
-    width.value = withSpring(width.value + 50);
-  };
-
   return (
-    <View style={styles.container}>
-      <Animated.View style={{ ...styles.box, width }} />
-      <Button onPress={handlePress} title="Click me" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
